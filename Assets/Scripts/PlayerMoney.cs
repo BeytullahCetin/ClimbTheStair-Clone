@@ -11,16 +11,9 @@ public class PlayerMoney : MonoBehaviour
     [SerializeField] Transform floatingTextSpawnPoint;
     [SerializeField] Transform floatingTextParent;
     [SerializeField] Vector3 floatingTextOffset;
+
     float currentMoney;
-
-
-
-    private void Start()
-    {
-        income = Mathf.Pow(1.1f, PlayerPrefs.GetFloat("IncomeUpgradeLevel", 1));
-        currentMoney = PlayerPrefs.GetFloat("Money", 0);
-        UpdateMoney(currentMoney);
-    }
+    bool firstTime = true;
 
     private void OnEnable()
     {
@@ -34,6 +27,14 @@ public class PlayerMoney : MonoBehaviour
 
     void EarnMoney()
     {
+        if (firstTime)
+        {
+            income = Mathf.Pow(1.1f, PlayerPrefs.GetFloat("IncomeUpgradeLevel", 1));
+            currentMoney = PlayerPrefs.GetFloat("Money", 0);
+            UpdateMoney(currentMoney);
+            firstTime = false;
+        }
+
         currentMoney += income;
         UpdateMoney(currentMoney);
 

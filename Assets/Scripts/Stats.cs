@@ -7,35 +7,36 @@ using System;
 
 public class Stats : MonoBehaviour
 {
-    //Speed
     [SerializeField] PlayerMovement playerMovement;
+    [SerializeField] PlayerMoney playerMoney;
+
+    //Speed
     [SerializeField] TextMeshProUGUI speedUpgradeLevelText;
     [SerializeField] TextMeshProUGUI speedUpgradePriceText;
     float speedUpgradeLevel = 1;
-    float speedUpgradePrice = 100;
+    float speedUpgradePrice = 10;
 
     //Stamina
     [SerializeField] PlayerStamina playerStamina;
     [SerializeField] TextMeshProUGUI staminaUpgradeLevelText;
     [SerializeField] TextMeshProUGUI staminaUpgradePriceText;
     float staminaUpgradeLevel = 1;
-    float staminaUpgradePrice = 100;
+    float staminaUpgradePrice = 10;
 
 
     //Income
-    [SerializeField] PlayerMoney playerMoney;
     [SerializeField] TextMeshProUGUI incomeUpgradeLevelText;
     [SerializeField] TextMeshProUGUI incomeUpgradePriceText;
     float incomeUpgradeLevel = 1;
-    float incomeUpgradePrice = 100;
+    float incomeUpgradePrice = 10;
 
     float currentMoney;
 
     private void Start()
     {
         GetStatsFromPlayerPrefs();
-        UpdateStatStatus();
         currentMoney = GetCurrentMoney();
+        UpdateStatStatus();
     }
 
     private float GetCurrentMoney()
@@ -60,6 +61,8 @@ public class Stats : MonoBehaviour
         if (currentMoney < speedUpgradePrice)
             return;
 
+        currentMoney -= speedUpgradePrice;
+
         speedUpgradeLevel++;
         speedUpgradePrice *= 1.1f;
 
@@ -74,6 +77,8 @@ public class Stats : MonoBehaviour
         if (currentMoney < staminaUpgradePrice)
             return;
 
+        currentMoney -= staminaUpgradePrice;
+
         staminaUpgradeLevel++;
         staminaUpgradePrice *= 1.1f;
 
@@ -87,6 +92,8 @@ public class Stats : MonoBehaviour
     {
         if (currentMoney < incomeUpgradePrice)
             return;
+
+        currentMoney -= incomeUpgradePrice;
 
         incomeUpgradeLevel++;
         incomeUpgradePrice *= 1.1f;
@@ -105,6 +112,8 @@ public class Stats : MonoBehaviour
         staminaUpgradeLevelText.SetText(staminaUpgradeLevel.ToString());
         incomeUpgradePriceText.SetText(incomeUpgradePrice.ToString());
         incomeUpgradeLevelText.SetText(incomeUpgradeLevel.ToString());
+        playerMoney.UpdateMoney(currentMoney);
+        PlayerPrefs.SetFloat("Money", currentMoney);
     }
 
     public void ResetAllProgress()
