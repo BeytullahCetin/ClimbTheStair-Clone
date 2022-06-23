@@ -6,7 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public static event Action OnMovement = delegate { };
+    public static event Action OnStairCreate = delegate { };
+    public static event Action<Transform> OnPlayerMove = delegate { };
 
     [SerializeField] Animator anim;
 
@@ -18,11 +19,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform woodsParent;
     [SerializeField] GameObject wood;
 
-    [SerializeField] float rotateSpeed = 1;
-    [SerializeField] float moveSpeed = .1f;
+    [SerializeField] float moveSpeed = 1f;
 
     bool touchInput = false;
     bool isMoving = false;
+    public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
 
     float stairHeight;
     float positionHolder;
@@ -31,16 +32,8 @@ public class PlayerMovement : MonoBehaviour
     {
         stairHeight = stair.GetComponent<MeshRenderer>().bounds.size.y;
         positionHolder = stairHeight;
-    }
 
-    private void OnEnable()
-    {
-        OnMovement += Step;
-    }
-
-    private void OnDisable()
-    {
-        OnMovement -= Step;
+        moveSpeed = Mathf.Pow(1.1f, PlayerPrefs.GetFloat("SpeedUpgradeLevel", 1));
     }
 
     void Step()
@@ -48,16 +41,19 @@ public class PlayerMovement : MonoBehaviour
         RotateCharacter();
         MoveCharacter();
         CreateStair();
+
+        OnPlayerMove(transform);
+
     }
 
     void RotateCharacter()
     {
-        transform.Rotate(Vector3.up * moveSpeed * 150 * Time.deltaTime);
+        transform.Rotate(Vector3.up * moveSpeed * 15 * Time.deltaTime);
     }
 
     void MoveCharacter()
     {
-        float movement = (moveSpeed) * Time.deltaTime;
+        float movement = (moveSpeed / 10) * Time.deltaTime;
         positionHolder += movement;
         transform.position += Vector3.up * movement;
     }
@@ -68,6 +64,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Instantiate(stair, stairSpawnTransform.position, stairSpawnTransform.rotation, stairsParent);
             positionHolder -= stairHeight;
+            
+            OnStairCreate();
             CreateWood();
         }
     }
