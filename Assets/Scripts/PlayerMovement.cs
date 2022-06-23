@@ -5,55 +5,57 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] Animator anim;
+
     [SerializeField] float rotateSpeed = 1;
     [SerializeField] float jumpSpeed = .1f;
 
-    [SerializeField] float movementTimeout = 1;
-    [SerializeField] float currentMovementTimeout = 0;
+    bool touchInput = false;
+    bool isMoving = false;
 
-    private void Start()
-    {
 
-    }
-    private void Update()
-    {
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            if (currentMovementTimeout >= movementTimeout)
-            {
-                RotateCharacter();
-                MoveCharacter();
-            }
-        }
-
-        if (currentMovementTimeout < movementTimeout)
-        {
-            currentMovementTimeout += Time.deltaTime;
-        }
-    }
 
     void RotateCharacter()
     {
-
-        transform.Rotate(Vector3.up * rotateSpeed);
-        currentMovementTimeout = 0;
-
+        transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
     }
 
     void MoveCharacter()
     {
-        transform.position += Vector3.up * jumpSpeed;
-        currentMovementTimeout = 0;
-
-
+        transform.position += Vector3.up * jumpSpeed * Time.deltaTime;
     }
 
-    public void adasdasd(InputAction.CallbackContext context)
+    IEnumerator Move()
     {
-        bool fire = context.ReadValueAsButton();
+        isMoving = true;
+        while (touchInput)
+        {
+            RotateCharacter();
+            MoveCharacter();
+            yield return null;
+        }
+        isMoving = false;
+    }
 
-        Debug.Log(fire);
-        Debug.Log("Fire Input: " + context.phase);
+    public void GetTouchInput(InputAction.CallbackContext context)
+    {
+        if (true == context.performed)
+        {
+            touchInput = true;
+
+            if (false == isMoving)
+            {
+                StartCoroutine(Move());
+            }
+
+        }
+        else if (true == context.canceled)
+        {
+            touchInput = false;
+        }
+
+        Debug.Log(touchInput);
+        anim.SetBool("isMoving", touchInput);
+
     }
 }

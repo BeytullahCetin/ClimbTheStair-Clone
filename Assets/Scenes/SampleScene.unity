@@ -503,6 +503,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 1887444742}
   t: 0.5
+  cameraOffset: {x: 0, y: 0.5, z: 0}
 --- !u!1001 &1039241501
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -532,19 +533,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6143824983032316228, guid: 274f5b95a120228429fda5ab66bb6c29, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 6143824983032316228, guid: 274f5b95a120228429fda5ab66bb6c29, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6143824983032316228, guid: 274f5b95a120228429fda5ab66bb6c29, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 6143824983032316228, guid: 274f5b95a120228429fda5ab66bb6c29, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6143824983032316228, guid: 274f5b95a120228429fda5ab66bb6c29, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -552,7 +553,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6143824983032316228, guid: 274f5b95a120228429fda5ab66bb6c29, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 6143824983032316228, guid: 274f5b95a120228429fda5ab66bb6c29, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -604,6 +605,7 @@ GameObject:
   - component: {fileID: 1887444742}
   - component: {fileID: 2022627113412988983}
   - component: {fileID: 2022627113412988984}
+  - component: {fileID: 1887444743}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -619,13 +621,32 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1887444741}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.333}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1970417388}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1887444743
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887444741}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: fd18879daea9efb4a9744131f29fd15c, type: 3}
+  m_Controller: {fileID: 9100000, guid: 1f34c559c6c8f5b4295ec4c5deb82072, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1970417387
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,7 +715,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2022627113412988984}
         m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
-        m_MethodName: adasdasd
+        m_MethodName: GetTouchInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -763,7 +784,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31fb8e10eecb4444bad039ebbee98f3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 2
-  jumpSpeed: 0.01
-  movementTimeout: 0.1
-  currentMovementTimeout: 0
+  anim: {fileID: 1887444743}
+  rotateSpeed: 20
+  jumpSpeed: 0.2
