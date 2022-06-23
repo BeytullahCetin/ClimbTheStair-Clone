@@ -11,10 +11,8 @@ public class PlayerFollow : MonoBehaviour
 
     private void Update()
     {
-        transform.position = new Vector3(transform.position.x,
-        Mathf.Lerp(transform.position.y, playerTransform.position.y, t),
-        transform.position.z);
-
-        transform.position += cameraOffset;
+        transform.position = new Vector3(transform.position.x + cameraOffset.x,
+        Mathf.Lerp(transform.position.y + cameraOffset.y, playerTransform.position.y, t),
+        transform.position.z + cameraOffset.z);
     }
 }
